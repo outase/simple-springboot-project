@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <classPathEntry location="/Users/hayashiatsuo/Documents/workspace/simpleSpringBootProject/jdbc/sqljdbc_8.4\jpn/mssql-jdbc-8.4.1.jre8.jar" />
+  <!-- context はデータベース単位で複数定義できます。id がその識別子になります。
+       データベース内のテーブルに関する定義などを含め、諸々がこの<context></context> に入ります。-->
+  <context id="simpleProject" targetRuntime="MyBatis3">
+	<property name="autoDelimitKeyWords" value="true" /> <!--true に設定すると、SQLキーワードがテーブル内の列名に使われている場合、区切り文字で列名を区切ります。デフォルトは false。-->
+    <property name="beginningDelimiter" value="[" /> <!--区切り文字の開始文字を指定。MySQLの場合：` 、MS SQL Serverの場合： [ -->
+    <property name="endingDelimiter" value="]" /> <!--区切り文字の終了文字を指定。-->
+
+	<!-- MyBatis Generator に渡す接続情報 -->
+    <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        connectionURL="jdbc:sqlserver://localhost:28082;database=otmProject;"
+        userId="SA"
+        password="pass123@">
+    </jdbcConnection>
+
+    <!-- UserDataクラスを生成する設定。テーブルに対応した POJO クラスや動的にクエリを発行するために使用する"テーブル名"クラスを生成するために使われます。 -->
+    <!--targetPackage : POJO クラスの出力先のパッケージ名-->
+	<!--targetProject : パッケージの起点となるプロジェクトのパス-->
+	<javaModelGenerator targetPackage="simpleProject.model"
+		targetProject="simpleSpringBootProject/src/main/java">
+      <property name="enableSubPackages" value="true" /> <!--テーブルのスキーマごとにパッケージを作成するかどうかを指定。MS SQL Server の dbo などが該当すると思われ。例えばテーブルが sample_db.dbo.sample_table であれば、org.ranc.プロジェクトルートパス.dbo.SampleTable にオブジェクトが出力されます。-->
+      <property name="trimStrings" value="true" /> <!--プロパティは true にすると、データベースから文字列の値を受け取るときに、trim() を必ず呼び出すように設定されます。-->
+    </javaModelGenerator>
+
+    <!-- UserDataMapperのXMLファイルを生成する設定。
+		 テーブルと POJO クラスのマッピング、DAO インターフェースに対してマップされる SQL を含んだ XML ファイルを生成。
+		 targetPackage と、targetProject は、javaModelGenerator と同じ。
+		 ただ、出力されるのは XML ファイルを出力するので、出力されるパスは projectname/src/main/resourcesにする。-->
+    <sqlMapGenerator targetPackage="simpleProject.repository"
+		targetProject="simpleSpringBootProject/src/main/resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <!-- UserDataMapperクラスを生成する設定。
+		 作成した POJO クラスと XML マッパーファイルを簡単に利用できる DAO インターフェースクラスを生成。
+		 targetPackage と、targetProject は、先の javaModelGenerator と同じ。
+		 typeは下記の3種類
+		 	ANNOTATEDMAPPER: DAO インターフェースクラスのアノテーションでSQLを定義できます。XML ファイルは生成されません。
+			MIXEDMAPPER: アノテーションの付与された DAO インターフェースと XML ファイルの両方を生成します。
+			XMLMAPPER: DAOインターフェースにアノテーションは付与されず、XML ファイルは生成されます。数多くの列を持つテーブルやビューの場合は推奨。-->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="simpleProject.repository"
+		targetProject="simpleSpringBootProject/src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <!-- テーブルのオブジェクト名や、生成する SQL の指定を行う。
+		tableName はテーブル名を指定。
+		domainObjectNameは、生成する POJO クラス名を指定します。
+		mapperName は XML マッパーファイルと DAO インターフェースの名前を指定します。
+		enable.. で始まる属性はそれぞれ、どのタイプの SQL を作成するか、
+		modelType は生成する POJO クラスの形式で、以下のとおりです。
+		flat: 単一の POJO クラスを生成されます。
+		hierarchical: プライマリキーのクラスと、その他のフィールドを含んだクラスが生成されます。
+		conditional: は hierarchical に似ていますが、プライマリキーが単一フィールドの場合は、クラスが分割されません。
+		また、この他にも、
+			schema や catalog といった属性があります。これは、使用しているデータベースの仕様に依存します。
+	-->
+    <table tableName="employee" domainObjectName="EmployeeModel"
+	    mapperName="EmployeeRepository"
+	    enableInsert="true"
+	    enableSelectByPrimaryKey="true"
+	    enableSelectByExample="true"
+	    enableUpdateByPrimaryKey="true"
+	    enableUpdateByExample="true"
+	    enableDeleteByPrimaryKey="true"
+	    enableDeleteByExample="true"
+	    enableCountByExample="true"
+	    selectByExampleQueryId="true"
+	    modelType="flat" >
+	    <columnRenamingRule searchString="^class$" replaceString="clazz"/> <!--テーブルの列名を、POJO クラスのフィールド名に置き換える際のネーミングルールを定義します。ここでは、class という列名があった場合は clazz に置き換えます。-->
+	    <!--autoDelimitKeywords で置き換えきれない列名をここで手動で指定します。
+			ここでは、id と name については、生成する SQL 内で区切り文字で区切るように指定しています。-->
+		<columnOverride column="id" delimitedColumnName="true"/>
+	    <columnOverride column="name" delimitedColumnName="true"/>
+    </table>
+  </context>
+</generatorConfiguration>
