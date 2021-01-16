@@ -6,12 +6,30 @@
 
 USE otmProject;
 
-DROP TABLE IF EXISTS employee;
+-- products
+DROP TABLE IF EXISTS products;
 
-CREATE TABLE employee (
+CREATE TABLE products (
     id INT PRIMARY KEY IDENTITY(1,1),
     name NVARCHAR(255),
-    sex int, --1:男、2:女
-    age int,
-    address NVARCHAR(255)
+    price int,
+);
+
+-- warehouses
+DROP TABLE IF EXISTS warehouses;
+
+CREATE TABLE warehouses (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(255),
+    address NVARCHAR(255),
+);
+
+-- productstock
+DROP TABLE IF EXISTS productstock;
+
+CREATE TABLE productstock (
+    warehouses_id int,
+    products_id int,
+    stock int,
+    PRIMARY KEY (warehouses_id, products_id)
 );

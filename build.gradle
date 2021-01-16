@@ -11,7 +11,7 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 eclipse.wtp {
-    component.contextPath = 'simpleProject'
+    component.contextPath = 'SimpleProject'
     facet {
         facet name: 'jst.java', version: '1.8'
         facet name: 'wst.jsdt.web', version: '1.0'
@@ -27,7 +27,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.1')
-    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.4.1.jre14'
+    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.4.1.jre8'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 }

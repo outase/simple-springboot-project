@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-  <classPathEntry location="/Users/hayashiatsuo/Documents/workspace/simpleSpringBootProject/jdbc/sqljdbc_8.4\jpn/mssql-jdbc-8.4.1.jre8.jar" />
+  <classPathEntry location="/Users/hayashiatsuo/Documents/workspace/SimpleSpringBootProject/jdbc/sqljdbc_8.4\jpn/mssql-jdbc-8.4.1.jre8.jar" />
   <!-- context はデータベース単位で複数定義できます。id がその識別子になります。
        データベース内のテーブルに関する定義などを含め、諸々がこの<context></context> に入ります。-->
-  <context id="simpleProject" targetRuntime="MyBatis3">
+  <context id="otmProject" targetRuntime="MyBatis3">
 	<property name="autoDelimitKeyWords" value="true" /> <!--true に設定すると、SQLキーワードがテーブル内の列名に使われている場合、区切り文字で列名を区切ります。デフォルトは false。-->
     <property name="beginningDelimiter" value="[" /> <!--区切り文字の開始文字を指定。MySQLの場合：` 、MS SQL Serverの場合： [ -->
     <property name="endingDelimiter" value="]" /> <!--区切り文字の終了文字を指定。-->
@@ -19,8 +19,8 @@
     <!-- UserDataクラスを生成する設定。テーブルに対応した POJO クラスや動的にクエリを発行するために使用する"テーブル名"クラスを生成するために使われます。 -->
     <!--targetPackage : POJO クラスの出力先のパッケージ名-->
 	<!--targetProject : パッケージの起点となるプロジェクトのパス-->
-	<javaModelGenerator targetPackage="simpleProject.model"
-		targetProject="simpleSpringBootProject/src/main/java">
+	<javaModelGenerator targetPackage="com.simpleproject.model"
+		targetProject="SimpleSpringBootProject/src/main/java">
       <property name="enableSubPackages" value="true" /> <!--テーブルのスキーマごとにパッケージを作成するかどうかを指定。MS SQL Server の dbo などが該当すると思われ。例えばテーブルが sample_db.dbo.sample_table であれば、org.ranc.プロジェクトルートパス.dbo.SampleTable にオブジェクトが出力されます。-->
       <property name="trimStrings" value="true" /> <!--プロパティは true にすると、データベースから文字列の値を受け取るときに、trim() を必ず呼び出すように設定されます。-->
     </javaModelGenerator>
@@ -29,8 +29,8 @@
 		 テーブルと POJO クラスのマッピング、DAO インターフェースに対してマップされる SQL を含んだ XML ファイルを生成。
 		 targetPackage と、targetProject は、javaModelGenerator と同じ。
 		 ただ、出力されるのは XML ファイルを出力するので、出力されるパスは projectname/src/main/resourcesにする。-->
-    <sqlMapGenerator targetPackage="simpleProject.repository"
-		targetProject="simpleSpringBootProject/src/main/resources">
+    <sqlMapGenerator targetPackage="com.simpleproject.repository"
+		targetProject="SimpleSpringBootProject/src/main/resources">
       <property name="enableSubPackages" value="true" />
     </sqlMapGenerator>
 
@@ -41,8 +41,8 @@
 		 	ANNOTATEDMAPPER: DAO インターフェースクラスのアノテーションでSQLを定義できます。XML ファイルは生成されません。
 			MIXEDMAPPER: アノテーションの付与された DAO インターフェースと XML ファイルの両方を生成します。
 			XMLMAPPER: DAOインターフェースにアノテーションは付与されず、XML ファイルは生成されます。数多くの列を持つテーブルやビューの場合は推奨。-->
-    <javaClientGenerator type="XMLMAPPER" targetPackage="simpleProject.repository"
-		targetProject="simpleSpringBootProject/src/main/java">
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.simpleproject.repository"
+		targetProject="SimpleSpringBootProject/src/main/java">
       <property name="enableSubPackages" value="true" />
     </javaClientGenerator>
 
@@ -58,8 +58,8 @@
 		また、この他にも、
 			schema や catalog といった属性があります。これは、使用しているデータベースの仕様に依存します。
 	-->
-    <table tableName="employee" domainObjectName="EmployeeModel"
-	    mapperName="EmployeeRepository"
+    <table tableName="products" domainObjectName="ProductsModel"
+	    mapperName="ProductsRepository"
 	    enableInsert="true"
 	    enableSelectByPrimaryKey="true"
 	    enableSelectByExample="true"
