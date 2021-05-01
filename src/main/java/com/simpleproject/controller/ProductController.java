@@ -1,17 +1,17 @@
 package com.simpleproject.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.simpleproject.model.ProdcutStockModel;
-import com.simpleproject.model.ProductsModel;
-import com.simpleproject.repository.ProductStockRepository;
-import com.simpleproject.repository.ProductsRepository;
+import com.simpleproject.domain.Products;
+import com.simpleproject.service.ProductsService;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -19,23 +19,35 @@ import com.simpleproject.repository.ProductsRepository;
 @RequestMapping("api")
 public class ProductController {
 
-	@Autowired
-	ProductsRepository  productsRepository;
+	private final ProductsService productsService;
 
-	@RequestMapping(value = "/getproducts", method = RequestMethod.GET)
+	public ProductController(ProductsService productsService) {
+		this.productsService = productsService;
+	}
+
+	@RequestMapping(value = "/gettest/{testid}/{testname}", method = RequestMethod.GET)
 	@ResponseBody
-	public ProductsModel getProducts(Model model) {
-		ProductsModel productsModel = productsRepository.selectByPrimaryKey(2);
-        return productsModel;
+	public String getTest(
+			@PathVariable("testid") String testId
+			,@PathVariable("testname") String testName
+			,@RequestHeader(value="Content-Type", required=false) String type
+			,@RequestParam("id") String id
+			,@RequestParam("val") String val
+			) {
+		System.out.print(val + " " + type);
+
+		Products products = this.productsService.runLogic();
+
+        return testId + " " + testName + " " + products.getName();
     }
 
-	@Autowired
-	ProductStockRepository  productStockRepository;
-
-	@RequestMapping(value = "/getproductstock", method = RequestMethod.GET)
+	@RequestMapping(value = "/posttest", method = RequestMethod.POST)
 	@ResponseBody
-	public ProdcutStockModel getProductstock(Model model) {
-		ProdcutStockModel productStockModel = productStockRepository.selectByPrimaryKey(1, 2);
-        return productStockModel;
+	public String postTest(
+			@RequestHeader(value="Content-Type", required=false) String type
+			,@RequestBody String body
+			) {
+		System.out.print(body);
+        return body;
     }
 }
